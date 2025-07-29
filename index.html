@@ -31,15 +31,30 @@
       background: #eaf4fe;
       text-align: center;
       padding: .7rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
     }
     nav a {
       color: #0a84ff;
       text-decoration: none;
-      margin: 0 1rem;
+      margin: 0 0.5rem;
       font-weight: 500;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      transition: background 0.2s;
     }
-    nav a:hover {
-      text-decoration: underline;
+    nav a.active, nav a:hover {
+      background: #0a84ff;
+      color: #fff;
+      text-decoration: none;
+    }
+    main > section {
+      display: none;
+    }
+    main > section.active {
+      display: block;
     }
     main {
       max-width: 750px;
@@ -77,6 +92,29 @@
     .gallery img:hover {
       transform: scale(1.05);
     }
+    .mission-mantra {
+      background: #eaf4fe;
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .mission-mantra h2 {
+      color: #0a84ff;
+      margin-bottom: .5rem;
+    }
+    .mission {
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+      color: #1565c0;
+    }
+    .mantra {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #006d77;
+      margin-bottom: 0;
+    }
     .footer {
       text-align: center;
       padding: 1.3rem 0;
@@ -102,6 +140,40 @@
       }
     }
   </style>
+  <script>
+    // Vanilla JS tab navigation
+    document.addEventListener('DOMContentLoaded', function() {
+      function showSection(id) {
+        document.querySelectorAll('main > section').forEach(s => s.classList.remove('active'));
+        document.querySelector('[data-section="'+id+'"]').classList.add('active');
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        document.querySelector('nav a[data-tab="'+id+'"]').classList.add('active');
+      }
+      document.querySelectorAll('nav a[data-tab]').forEach(a => {
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          showSection(this.getAttribute('data-tab'));
+          if (history.pushState) {
+            history.pushState(null, '', '#' + this.getAttribute('data-tab'));
+          }
+        });
+      });
+      // Show tab based on hash in URL
+      let hash = window.location.hash.replace('#','');
+      if(hash && document.querySelector('[data-section="'+hash+'"]')) {
+        showSection(hash);
+      } else {
+        showSection('about');
+      }
+      // Handle back/forward navigation
+      window.addEventListener('popstate', function() {
+        let hash = window.location.hash.replace('#','');
+        if(hash && document.querySelector('[data-section="'+hash+'"]')) {
+          showSection(hash);
+        }
+      });
+    });
+  </script>
 </head>
 <body>
   <header>
@@ -109,16 +181,17 @@
     <p>Enrichment Center for Children (Ages 4–14) • Specializing in Maths and English</p>
   </header>
   <nav>
-    <a href="#about">About</a>
-    <a href="#programs">Programs</a>
-    <a href="#contact">Contact</a>
+    <a href="#about" data-tab="about">About</a>
+    <a href="#programs" data-tab="programs">Programs</a>
+    <a href="#mission-mantra" data-tab="mission-mantra">Mission and Mantra</a>
+    <a href="#contact" data-tab="contact">Contact</a>
   </nav>
   <main>
-    <section class="gallery">
+    <section class="gallery active" data-section="about">
       <img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=800&q=80"
            alt="Kids studying maths together">
     </section>
-    <section id="about">
+    <section id="about" data-section="about">
       <h2>About Us</h2>
       <p>
         Bright Little Newton is dedicated to nurturing curious young minds aged 4 to 14. 
@@ -126,7 +199,7 @@
         Our enrichment programs are designed to ignite a lifelong love for learning, helping every child reach their fullest potential!
       </p>
     </section>
-    <section id="programs">
+    <section id="programs" data-section="programs">
       <h2>Our Programs</h2>
       <ul>
         <li>
@@ -143,18 +216,20 @@
         </li>
       </ul>
     </section>
-    <section id="contact">
+    <section id="mission-mantra" data-section="mission-mantra">
+      <div class="mission-mantra">
+        <h2>Our Mission</h2>
+        <div class="mission">
+          Together we Learn, Grow, Care &amp; Play. Empowering students with skills to succeed in life.
+        </div>
+        <h2>Our Mantra</h2>
+        <div class="mantra">
+          Care at Core – Success starts here
+        </div>
+      </div>
+    </section>
+    <section id="contact" data-section="contact">
       <h2>Contact Us</h2>
       <p>
         Interested in learning more or enrolling your child?<br>
-        <strong>Email:</strong> <a href="mailto:info@brightlittlenewton.com">info@brightlittlenewton.com</a><br>
-        <strong>Location:</strong> Your City, Country <br>
-        (Update with your specific address!)
-      </p>
-    </section>
-  </main>
-  <div class="footer">
-    &copy; 2025 Bright Little Newton. All rights reserved.
-  </div>
-</body>
-</html>
+        <strong>Email:</strong> <a href="mailto:info@brightl
