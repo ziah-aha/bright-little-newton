@@ -59,6 +59,24 @@
     ul {
       padding-left: 1.5rem;
     }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .gallery img {
+      width: 220px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(44, 156, 253, 0.15);
+      transition: transform 0.2s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
     .footer {
       text-align: center;
       padding: 1.3rem 0;
@@ -72,6 +90,15 @@
       }
       header h1 {
         font-size: 2rem;
+      }
+      .gallery {
+        flex-direction: column;
+        align-items: center;
+      }
+      .gallery img {
+        width: 98vw;
+        max-width: 320px;
+        height: auto;
       }
     }
   </style>
@@ -87,6 +114,10 @@
     <a href="#contact">Contact</a>
   </nav>
   <main>
+    <section class="gallery">
+      <img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=800&q=80"
+           alt="Kids studying maths together">
+    </section>
     <section id="about">
       <h2>About Us</h2>
       <p>
